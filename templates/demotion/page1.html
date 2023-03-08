@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %} 
+{% block content %}
+
+<div class="container">
+    <!-- Content here -->
+  <div class="jumbotron">
+        <div>
+            <h1 class="display-4" style="text-align: center; font-family: 'PyeongChangPeace-Bold';">Puppy's feeling </h1>
+            <!--<p class="lead" style="text-align: center;">강아지의 기분을 살펴보세요.</p>-->
+            <hr class="my-4">
+            <p style="text-align: center; font-family: 'IM_Hyemin-bold'; font-size: 1.5em;">이미지를 업로드 하면 강아지의 기분을 알려드립니다.</p>
+        </div>
+        <div style="text-align: center;">   
+            <img src="{% static 'img/maindog.png' %}" width=250px, height=250px;>
+        </div>
+        <br><br><br>
+        <div class="form-group container"> 
+            <form action="{% url 'upload_image'  %}" method="post" id="dogform" class="form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="card mx-auto">
+                    <div class="card-img-top" id="card-img-top">
+                    </div> 
+
+                    <div class="card-body">
+                        <p style="font-family: 'IM_Hyemin-bold';">이미지를 업로드 하세요.</p>
+                        <div class="custom-file mb-3">
+                            <input type="file" name='image' class="custom-file-input"  id="image" accept="image/*" required>
+                            <label class="custom-file-label" for="image">이미지 파일을 업로드하세요</label>
+                            <div class="invalid-feedback">이미지 파일을 업로드하세요!!</div>
+                        </div>
+                        <!--<h5 class="card-title">당신의 강쥐</h5>-->
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    
+                </div>
+
+                <br>
+                <div class="mb-3">
+                    <label for="name input" class="form-label" style="font-family: 'IM_Hyemin-bold';">강아지 이름을 입력해 주세요.</label>
+                    <input type="text" name='dogname' class="form-control" aria-label="First name" placeholder="강아지 이름을 입력해 주세요.">
+                </div>
+                
+                <p style="font-family: 'IM_Hyemin-bold';">성별을 골라주세요.</P>
+                <select name="gender" class="form-control" aria-label=".form-select-lg example" style="">
+                    <option value="2" selected> 암컷 </option>
+                    <option value="2">수컷</option>
+                    <option value="2">중성화 암컷</option>
+                    <option value="2">중성화 수컷</option>
+                </select>
+                <br>
+                <p style="font-family: 'IM_Hyemin-bold';">나이를 골라주세요.</P>
+                <select name="age" id = "age" class="form-control" style="">
+                    {% for i in "x"|rjust:"15" %}
+                    <option value="{{ forloop.counter }}">{{ forloop.counter }}살</option>            
+                    {% endfor %}
+                </select> 
+
+                <br>
+                <br>
+
+                <div style="text-align: center;">
+                    <button type="submit" href="" form="dogform" class="btn btn-primary" style= "font-family: 'PyeongChangPeace-Bold'; font-size: 2.0em;">
+                    기분 보러 가기
+
+                    <?xml version="1.0" encoding="utf-8"?>
+                    <!-- 하트 이모티콘 -->
+                    <svg width="35px" height="35px" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--twemoji" preserveAspectRatio="xMidYMid meet"><path fill="#DD2E44" d="M35.885 11.833c0-5.45-4.418-9.868-9.867-9.868c-3.308 0-6.227 1.633-8.018 4.129c-1.791-2.496-4.71-4.129-8.017-4.129c-5.45 0-9.868 4.417-9.868 9.868c0 .772.098 1.52.266 2.241C1.751 22.587 11.216 31.568 18 34.034c6.783-2.466 16.249-11.447 17.617-19.959c.17-.721.268-1.469.268-2.242z"></path></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#image').on('change',function(){
+        //get the file name
+        var fileName = $(this).val().substr(13);
+        //replace the "Choose a file" label
+        $(this).next('.custom-file-label').html(fileName);
+		
+		loadFile(this);
+    })
+
+    function loadFile(input) {
+
+        var newImage = document.createElement("img");
+        //newImage.setAttribute("class", 'rounded mx-auto d-block'); // 이미지 가운데 정렬
+        newImage.setAttribute("class", 'card-img-top');
+
+        var file = input.files[0];
+        newImage.src = URL.createObjectURL(file);   
+
+        newImage.style.width = "100%";
+        newImage.style.height = "85%";
+        newImage.style.visibility = "visible";
+        newImage.style.objectFit = "contain";
+        
+        $("img").remove(""); // 다른 강쥐 이미지를 업로드하면 계속 추가되는 현상 제거 
+        var container = document.getElementById('card-img-top');
+        container.appendChild(newImage);
+        
+    };
+</script>
+{% endblock %}

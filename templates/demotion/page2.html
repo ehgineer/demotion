@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %} 
+{% block content %}
+
+
+
+<div class="container">
+    <!-- Content here -->
+    <div class="jumbotron">
+        <div>
+            <h1 class="display-4" style="text-align: center; font-family: 'PyeongChangPeace-Bold';">♥ Result ♥</h1>
+            <!--<p class="lead" style="text-align: center;">강아지의 기분을 살펴보세요.</p>-->
+            <hr class="my-4">
+            <p style="text-align: center; font-family: 'IM_Hyemin-Bold'; font-size: 2.0em; ">
+              당신의 강아지의 기분은???</p>
+        </div>
+        <div style="text-align: center;">
+            <img src="{{ image }}" width=500px, height=450px;>
+        </div>
+        <div class="form-group container"> 
+            <form action="/demotion/any_view_function_url" method="post" class="form">
+                {% csrf_token %}
+                
+        </div>
+                <br>
+        <div class="card border-primary mb-3" style="max-width: 20rem position: center;">
+          <div class="card-header" style="font-family:'SDSamliphopangche_Outline'; font-size: 2.0em;">
+            {{ name }}은/는 지금...</div>
+            <div class="card-body">
+              <h4 class="card-title" style="font-family: 'UhBeeJJIBBABBA'; font-size: 3.0em;">{{ feeling }}</h4>
+              <br>  
+              <div class="card-footer" style="font-family: 'SDSamliphopangche_Outline'; font-size: 2.0em; ">
+                {{ name }}에게 이렇게 해주세요~~</div>
+              <div class="card-text" style="font-family: 'NIXGONM-Vb'; font-size: 2.0em; margin:0.5em;">
+                {{ solution }}</div>
+          </div>
+        </div>
+                <br>
+        <div style="text-align: center;">
+          <a href="/" class="btn btn-primary" style= "font-family: 'PyeongChangPeace-Bold'; font-size: 2.0em;">
+            뒤로 가기
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16" >
+              <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/>
+              <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/>
+            </svg>
+          </a>
+        </div>
+    </form>
+</div>
+</div>
+<script>
+    $('#validatedCustomFile').on('change',function(){
+        //get the file name
+        var fileName = $(this).val().substr(13);
+        //replace the "Choose a file" label
+        $(this).next('.custom-file-label').html(fileName);
+		
+		loadFile(this);
+    })
+
+
+    function loadFile(input) {
+
+        var newImage = document.createElement("img");
+        //newImage.setAttribute("class", 'rounded mx-auto d-block'); // 이미지 가운데 정렬
+        newImage.setAttribute("class", 'card-img-top');
+
+        var file = input.files[0];
+        newImage.src = URL.createObjectURL(file);   
+
+        newImage.style.width = "100%";
+        newImage.style.height = "100%";
+        newImage.style.visibility = "visible";
+        newImage.style.objectFit = "contain";
+        
+        $("img").remove(""); // 다른 강쥐 이미지를 업로드하면 계속 추가되는 현상 제거 
+        var container = document.getElementById('card-img-top');
+        container.appendChild(newImage);
+        
+    };
+
+
+</script>
+{% endblock %}
